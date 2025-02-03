@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Session } from "next-auth";
+import { type Session } from "next-auth";
 import {
   Menu,
   X,
@@ -13,6 +13,7 @@ import {
   LogOut,
   KeyRound,
 } from "lucide-react";
+import { Header } from "./header";
 
 interface NavClientProps {
   session: Session | null;
@@ -113,9 +114,12 @@ export function NavClient({ session, children }: NavClientProps) {
       )}
 
       {/* 메인 컨텐츠 래퍼 */}
-      <main className="flex-1 bg-white pt-16 md:ml-[280px] md:pt-0 dark:bg-[#0A0A0A]">
-        <div className="mx-auto h-full">{children}</div>
-      </main>
+      <div className="flex flex-1 flex-col md:ml-[280px]">
+        <Header session={session} />
+        <main className="flex-1 bg-white pt-16 dark:bg-[#0A0A0A]">
+          <div className="mx-auto h-full p-4">{children}</div>
+        </main>
+      </div>
     </div>
   );
 }

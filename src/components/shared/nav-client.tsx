@@ -3,16 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { type Session } from "next-auth";
-import {
-  Menu,
-  X,
-  Home,
-  Settings,
-  Shield,
-  FileText,
-  LogOut,
-  KeyRound,
-} from "lucide-react";
+import { Menu, X, Home, Target, LogOut, KeyRound } from "lucide-react";
 import { Header } from "@/components/layout/header";
 
 interface NavClientProps {
@@ -27,9 +18,7 @@ export function NavClient({ session, children }: NavClientProps) {
 
   const menuItems = [
     { name: "홈", href: "/", icon: Home },
-    { name: "설정", href: "/settings", icon: Settings },
-    { name: "보안", href: "/security", icon: Shield },
-    { name: "문서", href: "/docs", icon: FileText },
+    { name: "목표", href: "/goals", icon: Target },
   ];
 
   return (

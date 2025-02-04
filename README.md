@@ -1,29 +1,32 @@
-# Create T3 App
+# 개발 단계
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## 1단계 (MVP)
 
-## What's next? How do I make an app with this?
+- 기본적인 목표 설정 및 추적
+- 간단한 태스크 관리
+- 기본 진행 상황 시각화
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## 2단계
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- 습관 형성 기능
+- 리마인더 시스템
+- 기초 통계 기능
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## 3단계
 
-## Learn More
+- 커뮤니티 기능
+- AI 조언 시스템
+- 고급 분석 기능
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## 4단계
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- 게이미피케이션 요소
+- 멘토링 시스템
+- API 연동 (캘린더, 건강 앱 등)
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## 주요 고려사항
 
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+- 사용자가 지속적으로 앱을 사용하도록 만드는 것
+- 목표 달성에 실질적인 도움이 되는 기능 제공
+- 간단하고 직관적인 UI/UX
+- 개인정보 보호와 데이터 보안

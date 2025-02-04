@@ -1,7 +1,6 @@
 import "server-only";
-import Link from "next/link";
 import { auth } from "@/server/auth";
-import { NavClient } from "./nav-client";
+import { NavClient } from "@/components/shared/nav-client";
 
 interface NavProps {
   children: React.ReactNode;

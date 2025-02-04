@@ -13,7 +13,7 @@ import {
   LogOut,
   KeyRound,
 } from "lucide-react";
-import { Header } from "./header";
+import { Header } from "@/components/layout/header";
 
 interface NavClientProps {
   session: Session | null;
@@ -37,14 +37,14 @@ export function NavClient({ session, children }: NavClientProps) {
       {/* 모바일 햄버거 메뉴 */}
       <button
         onClick={toggleMenu}
-        className="fixed right-4 top-4 z-50 block rounded-lg p-2 text-gray-600 hover:bg-gray-100 md:hidden dark:text-gray-400 dark:hover:bg-gray-800"
+        className="fixed right-4 top-4 z-50 block rounded-lg p-2 text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 md:hidden"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
       {/* 네비게이션 */}
       <nav
-        className={`fixed left-0 top-0 z-40 h-full w-[280px] transform bg-white transition-transform duration-300 ease-in-out md:translate-x-0 dark:bg-[#0A0A0A] ${
+        className={`fixed left-0 top-0 z-40 h-full w-[280px] transform bg-white transition-transform duration-300 ease-in-out dark:bg-[#0A0A0A] md:translate-x-0 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

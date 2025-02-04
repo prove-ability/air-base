@@ -1,6 +1,6 @@
 import { auth } from "@/server/auth";
-import { GoalList } from "./_components/goal-list";
-import { GoalFilters } from "./_components/goal-filters";
+import { GoalFilters } from "./components/goal-filters";
+import { GoalList } from "./components/goal-list";
 
 export const metadata = {
   title: "목표 목록",

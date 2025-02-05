@@ -136,6 +136,13 @@ export const goalStatusEnum = pgEnum("goal_status", [
   "보류",
 ]);
 
+export const goalPriorityEnum = pgEnum("goal_priority", [
+  "낮음",
+  "보통",
+  "높음",
+  "긴급",
+]);
+
 export const goals = createTable(
   "goal",
   {
@@ -145,6 +152,7 @@ export const goals = createTable(
     dueDate: timestamp("due_date", { withTimezone: true }),
     progress: integer("progress").default(0),
     status: goalStatusEnum("status").default("진행전").notNull(),
+    priority: goalPriorityEnum("priority").default("보통").notNull(),
     userId: varchar("user_id", { length: 255 })
       .notNull()
       .references(() => users.id),

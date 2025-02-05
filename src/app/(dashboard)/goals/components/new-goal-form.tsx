@@ -27,11 +27,20 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { api } from "@/trpc/react";
 import { useToast } from "@/hooks/use-toast";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { goalPriorityEnum } from "@/server/db/schema";
 
 const formSchema = z.object({
   title: z.string().min(1, "제목을 입력해주세요"),
   description: z.string().optional(),
   dueDate: z.date().optional(),
+  priority: z.enum(goalPriorityEnum.enumValues).default("보통"),
 });
 
 export function NewGoalForm() {
@@ -136,6 +145,30 @@ export function NewGoalForm() {
                   </PopoverContent>
                 </Popover>
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="priority"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>우선순위</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="우선순위를 선택하세요" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="낮음">낮음</SelectItem>
+                  <SelectItem value="보통">보통</SelectItem>
+                  <SelectItem value="높음">높음</SelectItem>
+                  <SelectItem value="긴급">긴급</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

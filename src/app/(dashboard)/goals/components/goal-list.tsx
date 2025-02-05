@@ -28,6 +28,7 @@ export function GoalList() {
           }
           progress={goal.progress ?? 0}
           status={goal.status}
+          priority={goal.priority}
         />
       ))}
     </div>

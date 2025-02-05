@@ -12,11 +12,13 @@ import { goalStatusEnum } from "@/server/db/schema";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type GoalStatus = (typeof goalStatusEnum.enumValues)[number];
+type SortOption = "latest" | "dueDate" | "priority";
 
 export function GoalFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentStatus = searchParams.get("status");
+  const currentSort = searchParams.get("sort") as SortOption | null;
 
   const handleStatusChange = (status: GoalStatus | "전체") => {
     const params = new URLSearchParams(searchParams);
@@ -25,6 +27,12 @@ export function GoalFilters() {
     } else {
       params.set("status", status);
     }
+    router.push(`/goals?${params.toString()}`);
+  };
+
+  const handleSortChange = (sort: SortOption) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("sort", sort);
     router.push(`/goals?${params.toString()}`);
   };
 
@@ -71,14 +79,26 @@ export function GoalFilters() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="sm">
-            정렬 기준
+            {currentSort === "latest"
+              ? "최신순"
+              : currentSort === "dueDate"
+                ? "마감일순"
+                : currentSort === "priority"
+                  ? "우선순위순"
+                  : "정렬 기준"}
             <ChevronDown className="ml-2 h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem>최신순</DropdownMenuItem>
-          <DropdownMenuItem>마감일순</DropdownMenuItem>
-          <DropdownMenuItem>우선순위순</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleSortChange("latest")}>
+            최신순
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleSortChange("dueDate")}>
+            마감일순
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleSortChange("priority")}>
+            우선순위순
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

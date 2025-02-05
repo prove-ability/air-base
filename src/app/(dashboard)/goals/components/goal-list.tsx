@@ -8,9 +8,15 @@ import { useSearchParams } from "next/navigation";
 export function GoalList() {
   const searchParams = useSearchParams();
   const status = searchParams.get("status");
+  const sort = searchParams.get("sort");
 
   const { data: goals, isLoading } = api.goal.list.useQuery(
-    status ? { status: status as any } : undefined,
+    status || sort
+      ? {
+          ...(status && { status: status as any }),
+          ...(sort && { sort: sort as any }),
+        }
+      : undefined,
     {
       refetchOnWindowFocus: true,
     },
@@ -42,9 +48,7 @@ export function GoalList() {
         <GoalCard
           key={goal.id}
           title={goal.title}
-          dueDate={
-            goal.dueDate ? format(goal.dueDate, "yyyy.MM.dd") : "기한 없음"
-          }
+          dueDate={goal.dueDate ? format(goal.dueDate, "yyyy-MM-dd") : "없음"}
           progress={goal.progress ?? 0}
           status={goal.status}
           priority={goal.priority}

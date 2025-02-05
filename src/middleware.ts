@@ -5,6 +5,7 @@ import { env } from "@/env";
 
 export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request, secret: env.AUTH_SECRET });
+  // TODO: 토큰 확인 로직이 정상 동작하는지 확인 필요
   console.log("token", token);
 
   // 공개 경로 패턴 (로그인하지 않아도 접근 가능)

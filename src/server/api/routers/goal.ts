@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { goals, goalStatusEnum } from "@/server/db/schema";
+import { goals, goalStatusEnum, goalPriorityEnum } from "@/server/db/schema";
 import { and, eq, desc, asc, sql } from "drizzle-orm";
 
 export const goalRouter = createTRPCRouter({
@@ -10,6 +10,7 @@ export const goalRouter = createTRPCRouter({
         title: z.string().min(1, "제목을 입력해주세요"),
         description: z.string().optional(),
         dueDate: z.date().optional(),
+        priority: z.enum(goalPriorityEnum.enumValues).default("보통"),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -17,6 +18,7 @@ export const goalRouter = createTRPCRouter({
         title: input.title,
         description: input.description,
         dueDate: input.dueDate,
+        priority: input.priority,
         userId: ctx.session.user.id,
       });
     }),

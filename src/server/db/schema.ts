@@ -160,3 +160,29 @@ export const goals = createTable(
     titleIdx: index("goal_title_idx").on(goal.title),
   }),
 );
+
+export const taskStatusEnum = pgEnum("task_status", ["대기", "진행중", "완료"]);
+
+export const tasks = createTable(
+  "task",
+  {
+    id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+    title: varchar("title", { length: 256 }).notNull(),
+    description: text("description"),
+    status: taskStatusEnum("status").default("대기"),
+    dueDate: timestamp("due_date", { withTimezone: true }),
+    goalId: integer("goal_id")
+      .notNull()
+      .references(() => goals.id, { onDelete: "cascade" }),
+    userId: varchar("user_id", { length: 255 })
+      .notNull()
+      .references(() => users.id),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+  },
+  (task) => ({
+    goalIdIdx: index("task_goal_id_idx").on(task.goalId),
+    userIdIdx: index("task_user_id_idx").on(task.userId),
+  }),
+);

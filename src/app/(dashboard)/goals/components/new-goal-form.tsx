@@ -45,13 +45,15 @@ export function NewGoalForm() {
     },
   });
 
+  const utils = api.useUtils();
+
   const createGoal = api.goal.create.useMutation({
     onSuccess: () => {
       toast({
         title: "목표가 생성되었습니다",
         description: "새로운 목표를 향해 달려보세요!",
       });
-      router.refresh();
+      void utils.goal.list.invalidate();
       router.back();
     },
     onError: (error) => {

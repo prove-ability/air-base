@@ -5,7 +5,9 @@ import { GoalCard } from "./goal-card";
 import { format } from "date-fns";
 
 export function GoalList() {
-  const { data: goals, isLoading } = api.goal.list.useQuery();
+  const { data: goals, isLoading } = api.goal.list.useQuery(undefined, {
+    refetchOnWindowFocus: true,
+  });
 
   if (isLoading) {
     return <div>로딩 중...</div>;

@@ -144,7 +144,7 @@ export const goals = createTable(
     description: text("description"),
     dueDate: timestamp("due_date", { withTimezone: true }),
     progress: integer("progress").default(0),
-    status: goalStatusEnum("status").default("진행중"),
+    status: goalStatusEnum("status").default("진행전").notNull(),
     userId: varchar("user_id", { length: 255 })
       .notNull()
       .references(() => users.id),
@@ -169,7 +169,7 @@ export const tasks = createTable(
     id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
     title: varchar("title", { length: 256 }).notNull(),
     description: text("description"),
-    status: taskStatusEnum("status").default("대기"),
+    status: taskStatusEnum("status").default("대기").notNull(),
     dueDate: timestamp("due_date", { withTimezone: true }),
     goalId: integer("goal_id")
       .notNull()

@@ -1,0 +1,1 @@
+ALTER TABLE "air-base_goal" RENAME COLUMN "status" TO "goal_status";

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { goals } from "@/server/db/schema";
+import { and, eq, desc } from "drizzle-orm";
 
 export const goalRouter = createTRPCRouter({
   create: protectedProcedure
@@ -19,4 +20,12 @@ export const goalRouter = createTRPCRouter({
         userId: ctx.session.user.id,
       });
     }),
+
+  list: protectedProcedure.query(async ({ ctx }) => {
+    const userGoals = await ctx.db.query.goals.findMany({
+      where: eq(goals.userId, ctx.session.user.id),
+      orderBy: [desc(goals.createdAt)],
+    });
+    return userGoals;
+  }),
 });

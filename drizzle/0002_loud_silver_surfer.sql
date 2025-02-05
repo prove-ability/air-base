@@ -1,0 +1,1 @@
+ALTER TABLE "air-base_goal" ALTER COLUMN "status" DROP DEFAULT;

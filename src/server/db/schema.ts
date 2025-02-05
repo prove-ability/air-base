@@ -7,6 +7,7 @@ import {
   text,
   timestamp,
   varchar,
+  pgEnum,
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
 
@@ -128,6 +129,13 @@ export const verificationTokens = createTable(
   }),
 );
 
+export const goalStatusEnum = pgEnum("goal_status", [
+  "진행전",
+  "진행중",
+  "완료",
+  "보류",
+]);
+
 export const goals = createTable(
   "goal",
   {
@@ -136,7 +144,7 @@ export const goals = createTable(
     description: text("description"),
     dueDate: timestamp("due_date", { withTimezone: true }),
     progress: integer("progress").default(0),
-    status: varchar("status", { length: 20 }).default("진행중"),
+    status: goalStatusEnum("status").default("진행중"),
     userId: varchar("user_id", { length: 255 })
       .notNull()
       .references(() => users.id),

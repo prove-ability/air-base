@@ -1,6 +1,7 @@
 "use client";
 
 import { type Session } from "next-auth";
+import Image from "next/image";
 
 interface HeaderProps {
   session: Session | null;
@@ -8,7 +9,7 @@ interface HeaderProps {
 
 export function Header({ session }: HeaderProps) {
   return (
-    <header className="fixed left-0 right-0 top-0 z-30 border-b border-gray-200 bg-white px-4 py-3 md:left-[280px] dark:border-gray-800 dark:bg-[#0A0A0A]">
+    <header className="fixed left-0 right-0 top-0 z-30 border-b border-gray-200 bg-white px-4 py-3 dark:border-gray-800 dark:bg-[#0A0A0A] md:left-[280px]">
       <div className="flex items-center justify-end">
         {session?.user && (
           <div className="flex items-center gap-3">
@@ -16,10 +17,12 @@ export function Header({ session }: HeaderProps) {
               {session.user.name}
             </span>
             {session.user.image && (
-              <img
+              <Image
                 src={session.user.image}
                 alt="프로필"
-                className="h-8 w-8 rounded-full"
+                width={32}
+                height={32}
+                className="rounded-full"
               />
             )}
           </div>

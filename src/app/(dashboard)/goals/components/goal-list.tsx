@@ -4,8 +4,13 @@ import { api } from "@/trpc/react";
 import { GoalCard } from "./goal-card";
 import { format } from "date-fns";
 import { useSearchParams } from "next/navigation";
+import type { FC } from "react";
+import type { goalStatusEnum } from "@/server/db/schema";
 
-export function GoalList() {
+type GoalStatus = (typeof goalStatusEnum.enumValues)[number];
+type SortOption = "dueDate" | "priority";
+
+export const GoalList: FC = () => {
   const searchParams = useSearchParams();
   const status = searchParams.get("status");
   const sort = searchParams.get("sort");
@@ -13,8 +18,8 @@ export function GoalList() {
   const { data: goals, isLoading } = api.goal.list.useQuery(
     status || sort
       ? {
-          ...(status && { status: status as any }),
-          ...(sort && { sort: sort as any }),
+          ...(status && { status: status as GoalStatus }),
+          ...(sort && { sort: sort as SortOption }),
         }
       : undefined,
     {
@@ -56,4 +61,4 @@ export function GoalList() {
       ))}
     </div>
   );
-}
+};

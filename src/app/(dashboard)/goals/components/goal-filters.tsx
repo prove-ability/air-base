@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
-import { goalStatusEnum } from "@/server/db/schema";
+import type { goalStatusEnum } from "@/server/db/schema";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type GoalStatus = (typeof goalStatusEnum.enumValues)[number];

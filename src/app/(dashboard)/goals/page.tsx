@@ -1,4 +1,3 @@
-import { auth } from "@/server/auth";
 import { GoalFilters } from "./components/goal-filters";
 import { GoalList } from "./components/goal-list";
 import Link from "next/link";

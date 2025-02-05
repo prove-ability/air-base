@@ -1,10 +1,19 @@
+import type { goalStatusEnum, goalPriorityEnum } from "@/server/db/schema";
+import type { FC } from "react";
+
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { goalStatusEnum, goalPriorityEnum } from "@/server/db/schema";
 import { Badge } from "@/components/ui/badge";
 
 type GoalStatus = (typeof goalStatusEnum.enumValues)[number];
 type GoalPriority = (typeof goalPriorityEnum.enumValues)[number];
+
+const priorityColors = {
+  긴급: "text-rose-600 dark:text-rose-500",
+  높음: "text-red-500 dark:text-red-400",
+  보통: "text-yellow-500 dark:text-yellow-400",
+  낮음: "text-blue-500 dark:text-blue-400",
+} as const;
 
 interface GoalCardProps {
   title: string;
@@ -14,20 +23,13 @@ interface GoalCardProps {
   priority: GoalPriority;
 }
 
-const priorityColors = {
-  긴급: "text-rose-600 dark:text-rose-500",
-  높음: "text-red-500 dark:text-red-400",
-  보통: "text-yellow-500 dark:text-yellow-400",
-  낮음: "text-blue-500 dark:text-blue-400",
-} as const;
-
-export function GoalCard({
+export const GoalCard: FC<GoalCardProps> = ({
   title,
   dueDate,
   progress,
   status,
   priority,
-}: GoalCardProps) {
+}) => {
   return (
     <Card className="hover:bg-accent/50">
       <CardHeader>
@@ -50,4 +52,4 @@ export function GoalCard({
       </CardContent>
     </Card>
   );
-}
+};

@@ -15,7 +15,7 @@ const config = {
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/consistent-type-imports": [
-      "warn",
+      "error",
       {
         prefer: "type-imports",
         fixStyle: "inline-type-imports",
@@ -48,9 +48,7 @@ const config = {
         drizzleObjectName: ["db", "ctx.db"],
       },
     ],
-    "@typescript-eslint/explicit-function-return-type": "warn",
     "@typescript-eslint/no-explicit-any": "warn",
-    "@typescript-eslint/strict-boolean-expressions": "warn",
   },
 };
 module.exports = config;

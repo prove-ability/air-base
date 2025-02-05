@@ -3,7 +3,7 @@ export default function GoalsLayout({
   modal,
 }: {
   children: React.ReactNode;
-  modal?: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <>

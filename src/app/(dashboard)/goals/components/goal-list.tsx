@@ -53,6 +53,9 @@ export const GoalList: FC = () => {
         <GoalCard
           key={goal.id}
           title={goal.title}
+          startDate={
+            goal.startDate ? format(goal.startDate, "yyyy-MM-dd") : undefined
+          }
           dueDate={goal.dueDate ? format(goal.dueDate, "yyyy-MM-dd") : "없음"}
           progress={goal.progress ?? 0}
           status={goal.status}

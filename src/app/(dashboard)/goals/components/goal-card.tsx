@@ -17,6 +17,7 @@ const priorityColors = {
 
 interface GoalCardProps {
   title: string;
+  startDate?: string;
   dueDate: string;
   progress: number;
   status: GoalStatus;
@@ -25,6 +26,7 @@ interface GoalCardProps {
 
 export const GoalCard: FC<GoalCardProps> = ({
   title,
+  startDate,
   dueDate,
   progress,
   status,
@@ -40,7 +42,10 @@ export const GoalCard: FC<GoalCardProps> = ({
               {priority}
             </Badge>
           </div>
-          <span className="text-sm text-muted-foreground">마감: {dueDate}</span>
+          <div className="flex flex-col items-end gap-1 text-sm text-muted-foreground">
+            {startDate && <span>시작: {startDate}</span>}
+            <span>마감: {dueDate}</span>
+          </div>
         </div>
       </CardHeader>
       <CardContent>

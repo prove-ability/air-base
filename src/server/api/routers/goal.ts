@@ -9,6 +9,7 @@ export const goalRouter = createTRPCRouter({
       z.object({
         title: z.string().min(1, "제목을 입력해주세요"),
         description: z.string().optional(),
+        startDate: z.date().optional(),
         dueDate: z.date().optional(),
         priority: z.enum(goalPriorityEnum.enumValues).default("보통"),
       }),
@@ -17,6 +18,7 @@ export const goalRouter = createTRPCRouter({
       await ctx.db.insert(goals).values({
         title: input.title,
         description: input.description,
+        startDate: input.startDate,
         dueDate: input.dueDate,
         priority: input.priority,
         userId: ctx.session.user.id,

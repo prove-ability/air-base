@@ -149,6 +149,7 @@ export const goals = createTable(
     id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
     title: varchar("title", { length: 256 }).notNull(),
     description: text("description"),
+    startDate: timestamp("start_date", { withTimezone: true }),
     dueDate: timestamp("due_date", { withTimezone: true }),
     progress: integer("progress").default(0),
     status: goalStatusEnum("status").default("진행전").notNull(),

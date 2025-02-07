@@ -136,7 +136,7 @@ export function NewGoalForm() {
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormLabel>시작일</FormLabel>
-                <Popover>
+                <Popover modal>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
@@ -176,7 +176,7 @@ export function NewGoalForm() {
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormLabel>마감일</FormLabel>
-                <Popover>
+                <Popover modal>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button

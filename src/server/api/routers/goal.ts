@@ -80,4 +80,31 @@ export const goalRouter = createTRPCRouter({
         },
       }));
     }),
+
+  get: protectedProcedure
+    .input(z.number())
+    .query(async ({ ctx, input: goalId }) => {
+      const goal = await ctx.db.query.goals.findFirst({
+        where: and(eq(goals.id, goalId), eq(goals.userId, ctx.session.user.id)),
+        with: {
+          tasks: {
+            columns: {
+              status: true,
+            },
+          },
+        },
+      });
+
+      if (!goal) {
+        throw new Error("목표를 찾을 수 없습니다.");
+      }
+
+      return {
+        ...goal,
+        taskStats: {
+          total: goal.tasks.length,
+          completed: goal.tasks.filter((task) => task.status === "완료").length,
+        },
+      };
+    }),
 });

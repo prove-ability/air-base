@@ -42,31 +42,53 @@ export const GoalCard: FC<GoalCardProps> = ({
 }) => {
   return (
     <Link href={`/goals/${id}`}>
-      <Card className="transition-colors hover:bg-accent/50">
+      <Card className="group relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-primary/10">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/5 to-primary/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <h3 className="text-lg font-semibold">{title}</h3>
-              <Badge variant="outline" className={priorityColors[priority]}>
+              <h3 className="text-lg font-semibold transition-colors group-hover:text-primary">
+                {title}
+              </h3>
+              <Badge
+                variant="outline"
+                className={`${priorityColors[priority]} transition-all duration-300 group-hover:scale-105`}
+              >
                 {priority}
               </Badge>
             </div>
             <div className="flex flex-col items-end gap-1 text-sm text-muted-foreground">
-              {startDate && <span>시작: {startDate}</span>}
-              <span>마감: {dueDate}</span>
+              {startDate && (
+                <span className="transition-colors group-hover:text-primary">
+                  시작: {startDate}
+                </span>
+              )}
+              <span className="transition-colors group-hover:text-primary">
+                마감: {dueDate}
+              </span>
             </div>
           </div>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground">{status}</span>
-              <Progress value={progress} className="flex-1" />
-              <span className="text-sm text-muted-foreground">{progress}%</span>
+              <span className="text-sm text-muted-foreground transition-colors group-hover:text-primary">
+                {status}
+              </span>
+              <Progress
+                value={progress}
+                className="flex-1 transition-all duration-300 group-hover:bg-primary/20"
+                indicatorClassName="transition-all duration-300 group-hover:bg-primary"
+              />
+              <span className="text-sm text-muted-foreground transition-colors group-hover:text-primary">
+                {progress}%
+              </span>
             </div>
             <div className="flex items-center justify-end gap-2 text-sm text-muted-foreground">
-              <span>태스크:</span>
-              <span>
+              <span className="transition-colors group-hover:text-primary">
+                태스크:
+              </span>
+              <span className="transition-colors group-hover:text-primary">
                 {taskStats.completed}/{taskStats.total}
               </span>
             </div>

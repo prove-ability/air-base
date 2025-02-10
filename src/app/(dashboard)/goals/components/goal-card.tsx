@@ -1,5 +1,6 @@
 import type { goalStatusEnum, goalPriorityEnum } from "@/server/db/schema";
 import type { FC } from "react";
+import Link from "next/link";
 
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -16,6 +17,7 @@ const priorityColors = {
 } as const;
 
 interface GoalCardProps {
+  id: number;
   title: string;
   startDate?: string;
   dueDate: string;
@@ -25,6 +27,7 @@ interface GoalCardProps {
 }
 
 export const GoalCard: FC<GoalCardProps> = ({
+  id,
   title,
   startDate,
   dueDate,
@@ -33,28 +36,30 @@ export const GoalCard: FC<GoalCardProps> = ({
   priority,
 }) => {
   return (
-    <Card className="hover:bg-accent/50">
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <h3 className="text-lg font-semibold">{title}</h3>
-            <Badge variant="outline" className={priorityColors[priority]}>
-              {priority}
-            </Badge>
+    <Link href={`/goals/${id}`}>
+      <Card className="transition-colors hover:bg-accent/50">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <h3 className="text-lg font-semibold">{title}</h3>
+              <Badge variant="outline" className={priorityColors[priority]}>
+                {priority}
+              </Badge>
+            </div>
+            <div className="flex flex-col items-end gap-1 text-sm text-muted-foreground">
+              {startDate && <span>시작: {startDate}</span>}
+              <span>마감: {dueDate}</span>
+            </div>
           </div>
-          <div className="flex flex-col items-end gap-1 text-sm text-muted-foreground">
-            {startDate && <span>시작: {startDate}</span>}
-            <span>마감: {dueDate}</span>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-muted-foreground">{status}</span>
+            <Progress value={progress} className="flex-1" />
+            <span className="text-sm text-muted-foreground">{progress}%</span>
           </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-muted-foreground">{status}</span>
-          <Progress value={progress} className="flex-1" />
-          <span className="text-sm text-muted-foreground">{progress}%</span>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };

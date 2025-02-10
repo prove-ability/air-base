@@ -52,6 +52,7 @@ export const GoalList: FC = () => {
       {goals.map((goal) => (
         <GoalCard
           key={goal.id}
+          id={goal.id}
           title={goal.title}
           startDate={
             goal.startDate ? format(goal.startDate, "yyyy-MM-dd") : undefined

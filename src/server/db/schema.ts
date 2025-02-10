@@ -170,6 +170,10 @@ export const goals = createTable(
   }),
 );
 
+export const goalsRelations = relations(goals, ({ many }) => ({
+  tasks: many(tasks),
+}));
+
 export const taskStatusEnum = pgEnum("task_status", ["대기", "진행중", "완료"]);
 
 export const tasks = createTable(
@@ -195,3 +199,7 @@ export const tasks = createTable(
     userIdIdx: index("task_user_id_idx").on(task.userId),
   }),
 );
+
+export const tasksRelations = relations(tasks, ({ one }) => ({
+  goal: one(goals, { fields: [tasks.goalId], references: [goals.id] }),
+}));

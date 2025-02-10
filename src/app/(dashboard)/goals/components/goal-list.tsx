@@ -61,6 +61,7 @@ export const GoalList: FC = () => {
           progress={goal.progress ?? 0}
           status={goal.status}
           priority={goal.priority}
+          taskStats={goal.taskStats}
         />
       ))}
     </div>

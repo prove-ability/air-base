@@ -24,6 +24,10 @@ interface GoalCardProps {
   progress: number;
   status: GoalStatus;
   priority: GoalPriority;
+  taskStats: {
+    total: number;
+    completed: number;
+  };
 }
 
 export const GoalCard: FC<GoalCardProps> = ({
@@ -34,6 +38,7 @@ export const GoalCard: FC<GoalCardProps> = ({
   progress,
   status,
   priority,
+  taskStats,
 }) => {
   return (
     <Link href={`/goals/${id}`}>
@@ -53,10 +58,18 @@ export const GoalCard: FC<GoalCardProps> = ({
           </div>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">{status}</span>
-            <Progress value={progress} className="flex-1" />
-            <span className="text-sm text-muted-foreground">{progress}%</span>
+          <div className="space-y-4">
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-muted-foreground">{status}</span>
+              <Progress value={progress} className="flex-1" />
+              <span className="text-sm text-muted-foreground">{progress}%</span>
+            </div>
+            <div className="flex items-center justify-end gap-2 text-sm text-muted-foreground">
+              <span>태스크:</span>
+              <span>
+                {taskStats.completed}/{taskStats.total}
+              </span>
+            </div>
           </div>
         </CardContent>
       </Card>

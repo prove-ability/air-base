@@ -63,7 +63,21 @@ export const goalRouter = createTRPCRouter({
       const userGoals = await ctx.db.query.goals.findMany({
         where: and(...conditions),
         orderBy,
+        with: {
+          tasks: {
+            columns: {
+              status: true,
+            },
+          },
+        },
       });
-      return userGoals;
+
+      return userGoals.map((goal) => ({
+        ...goal,
+        taskStats: {
+          total: goal.tasks.length,
+          completed: goal.tasks.filter((task) => task.status === "완료").length,
+        },
+      }));
     }),
 });

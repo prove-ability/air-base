@@ -13,6 +13,7 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 
 interface TaskListProps {
   goalId: number;
@@ -21,16 +22,61 @@ interface TaskListProps {
 export function TaskList({ goalId }: TaskListProps) {
   const { data: tasks, isLoading } = api.task.list.useQuery(goalId);
   const utils = api.useUtils();
+  const { toast } = useToast();
 
   const updateStatus = api.task.updateStatus.useMutation({
-    onSuccess: () => {
+    onMutate: async ({ id, status }) => {
+      // 이전 데이터 백업
+      const previousTasks = utils.task.list.getData(goalId);
+
+      // 낙관적으로 캐시 업데이트
+      utils.task.list.setData(goalId, (old) =>
+        old?.map((task) => (task.id === id ? { ...task, status } : task)),
+      );
+
+      return { previousTasks };
+    },
+    onError: (err, variables, context) => {
+      // 에러 발생 시 이전 상태로 롤백
+      if (context?.previousTasks) {
+        utils.task.list.setData(goalId, context.previousTasks);
+      }
+      toast({
+        variant: "destructive",
+        title: "상태 변경 실패",
+        description: "다시 시도해주세요.",
+      });
+    },
+    onSettled: () => {
+      // 서버와 동기화
       void utils.task.list.invalidate(goalId);
+      void utils.goal.list.invalidate();
     },
   });
 
   const deleteTask = api.task.delete.useMutation({
-    onSuccess: () => {
+    onMutate: async (taskId) => {
+      const previousTasks = utils.task.list.getData(goalId);
+
+      utils.task.list.setData(goalId, (old) =>
+        old?.filter((task) => task.id !== taskId),
+      );
+
+      return { previousTasks };
+    },
+    onError: (err, variables, context) => {
+      if (context?.previousTasks) {
+        utils.task.list.setData(goalId, context.previousTasks);
+      }
+      toast({
+        variant: "destructive",
+        title: "삭제 실패",
+        description: "다시 시도해주세요.",
+      });
+    },
+    onSettled: () => {
       void utils.task.list.invalidate(goalId);
+      void utils.goal.list.invalidate();
     },
   });
 
@@ -50,6 +96,7 @@ export function TaskList({ goalId }: TaskListProps) {
             <div className="flex items-start justify-between">
               <div className="flex items-start gap-2">
                 <Checkbox
+                  id={`task-${task.id}`}
                   checked={task.status === "완료"}
                   onCheckedChange={(checked) => {
                     updateStatus.mutate({
@@ -57,11 +104,17 @@ export function TaskList({ goalId }: TaskListProps) {
                       status: checked ? "완료" : "대기",
                     });
                   }}
+                  aria-label={`${task.title} 완료 여부`}
                 />
                 <div>
                   <CardTitle className="text-base">{task.title}</CardTitle>
                   {task.description && (
-                    <CardDescription>{task.description}</CardDescription>
+                    <CardDescription
+                      id={`task-desc-${task.id}`}
+                      aria-describedby={`task-desc-${task.id}`}
+                    >
+                      {task.description}
+                    </CardDescription>
                   )}
                 </div>
               </div>

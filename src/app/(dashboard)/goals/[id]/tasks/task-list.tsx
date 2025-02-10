@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Trash2, ListTodo } from "lucide-react";
 import {
   Card,
   CardHeader,
@@ -14,10 +14,46 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Plus } from "lucide-react";
+import { NewTaskForm } from "./new-task-form";
 
 interface TaskListProps {
   goalId: number;
 }
+
+const EmptyState = ({ goalId }: TaskListProps) => {
+  return (
+    <div className="flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center animate-in fade-in-50">
+      <ListTodo className="h-12 w-12 animate-pulse text-primary" />
+      <h3 className="mt-4 text-lg font-semibold">등록된 태스크가 없습니다</h3>
+      <p className="mt-2 text-sm text-muted-foreground">
+        새로운 태스크를 추가하고 목표를 향해 나아가보세요!
+      </p>
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button className="mt-4">
+            <Plus className="mr-2 h-4 w-4" />새 태스크
+          </Button>
+        </SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>새 태스크 추가</SheetTitle>
+          </SheetHeader>
+          <div className="mt-4">
+            <NewTaskForm goalId={goalId} />
+          </div>
+        </SheetContent>
+      </Sheet>
+    </div>
+  );
+};
 
 export function TaskList({ goalId }: TaskListProps) {
   const { data: tasks, isLoading } = api.task.list.useQuery(goalId);
@@ -51,6 +87,7 @@ export function TaskList({ goalId }: TaskListProps) {
       // 서버와 동기화
       void utils.task.list.invalidate(goalId);
       void utils.goal.list.invalidate();
+      void utils.goal.get.invalidate(goalId);
     },
   });
 
@@ -77,6 +114,7 @@ export function TaskList({ goalId }: TaskListProps) {
     onSettled: () => {
       void utils.task.list.invalidate(goalId);
       void utils.goal.list.invalidate();
+      void utils.goal.get.invalidate(goalId);
     },
   });
 
@@ -85,7 +123,7 @@ export function TaskList({ goalId }: TaskListProps) {
   }
 
   if (!tasks?.length) {
-    return <div>등록된 태스크가 없습니다.</div>;
+    return <EmptyState goalId={goalId} />;
   }
 
   return (

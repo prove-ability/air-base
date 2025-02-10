@@ -60,6 +60,7 @@ export function NewTaskForm({ goalId, onSuccess }: NewTaskFormProps) {
       form.reset();
       void utils.task.list.invalidate(goalId);
       void utils.goal.list.invalidate();
+      void utils.goal.get.invalidate(goalId);
       onSuccess?.();
     },
   });

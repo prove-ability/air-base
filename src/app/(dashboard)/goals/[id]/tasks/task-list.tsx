@@ -142,6 +142,7 @@ export function TaskList({ goalId }: TaskListProps) {
                       status: checked ? "완료" : "대기",
                     });
                   }}
+                  disabled={updateStatus.isPending}
                   aria-label={`${task.title} 완료 여부`}
                 />
                 <div>

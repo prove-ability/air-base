@@ -55,6 +55,33 @@ const EmptyState = ({ goalId }: TaskListProps) => {
   );
 };
 
+const LoadingState = () => {
+  return (
+    <div className="space-y-4">
+      {Array.from<undefined, JSX.Element>({ length: 3 }, (_, i) => (
+        <Card
+          key={i}
+          className="animate-pulse"
+          style={{ animationDelay: `${i * 100}ms` }}
+        >
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="h-5 w-5 rounded bg-muted"></div>
+                <div className="space-y-2">
+                  <div className="h-5 w-48 rounded bg-muted"></div>
+                  <div className="h-4 w-32 rounded bg-muted"></div>
+                </div>
+              </div>
+              <div className="h-8 w-8 rounded bg-muted"></div>
+            </div>
+          </CardHeader>
+        </Card>
+      ))}
+    </div>
+  );
+};
+
 export function TaskList({ goalId }: TaskListProps) {
   const { data: tasks, isLoading } = api.task.list.useQuery(goalId);
   const utils = api.useUtils();
@@ -119,7 +146,7 @@ export function TaskList({ goalId }: TaskListProps) {
   });
 
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return <LoadingState />;
   }
 
   if (!tasks?.length) {

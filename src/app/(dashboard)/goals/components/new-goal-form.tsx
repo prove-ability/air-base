@@ -239,8 +239,8 @@ export function NewGoalForm() {
           <Button type="button" variant="outline" onClick={() => router.back()}>
             취소
           </Button>
-          <Button type="submit" disabled={createGoal.isPending}>
-            {createGoal.isPending ? "생성 중..." : "생성"}
+          <Button type="submit" isPending={createGoal.isPending}>
+            생성
           </Button>
         </div>
       </form>

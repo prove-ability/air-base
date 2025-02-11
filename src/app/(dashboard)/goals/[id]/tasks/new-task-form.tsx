@@ -147,8 +147,8 @@ export function NewTaskForm({ goalId, onSuccess }: NewTaskFormProps) {
         />
 
         <div className="flex justify-end">
-          <Button type="submit" disabled={createTask.isPending}>
-            {createTask.isPending ? "생성 중..." : "태스크 추가"}
+          <Button type="submit" isPending={createTask.isPending}>
+            태스크 추가
           </Button>
         </div>
       </form>

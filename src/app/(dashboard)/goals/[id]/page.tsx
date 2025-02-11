@@ -168,9 +168,9 @@ export default function GoalPage() {
                 <Button
                   variant="destructive"
                   onClick={() => deleteGoal.mutate(goalId)}
-                  disabled={deleteGoal.isPending}
+                  isPending={deleteGoal.isPending}
                 >
-                  {deleteGoal.isPending ? "삭제 중..." : "삭제"}
+                  삭제
                 </Button>
               </DialogFooter>
             </DialogContent>

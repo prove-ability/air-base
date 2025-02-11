@@ -160,6 +160,8 @@ export function TaskList({ goalId }: TaskListProps) {
                 variant="ghost"
                 size="icon"
                 onClick={() => deleteTask.mutate(task.id)}
+                isPending={deleteTask.isPending}
+                aria-label="태스크 삭제"
               >
                 <Trash2 className="h-4 w-4" />
               </Button>

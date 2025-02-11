@@ -3,7 +3,7 @@
 import { TaskList } from "./tasks/task-list";
 import { NewTaskForm } from "./tasks/new-task-form";
 import { Button } from "@/components/ui/button";
-import { Plus, Loader2 } from "lucide-react";
+import { Plus, Loader2, Trash2 } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -11,11 +11,21 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useParams } from "next/navigation";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useParams, useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
 import { GoalCard } from "../components/goal-card";
 import { format } from "date-fns";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 
 const LoadingState = () => {
   return (
@@ -81,9 +91,30 @@ const LoadingState = () => {
 
 export default function GoalPage() {
   const params = useParams<{ id: string }>();
+  const router = useRouter();
+  const { toast } = useToast();
   const goalId = parseInt(params.id);
 
   const { data: goal, isLoading } = api.goal.get.useQuery(goalId);
+  const utils = api.useUtils();
+
+  const deleteGoal = api.goal.delete.useMutation({
+    onSuccess: (deletedGoal) => {
+      toast({
+        title: "목표가 삭제되었습니다",
+        description: `"${deletedGoal.title}" 목표가 삭제되었습니다.`,
+      });
+      void utils.goal.list.invalidate();
+      router.push("/goals");
+    },
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: "삭제 실패",
+        description: error.message,
+      });
+    },
+  });
 
   if (isLoading) {
     return <LoadingState />;
@@ -104,6 +135,47 @@ export default function GoalPage() {
   return (
     <div className="container mx-auto py-6 animate-in fade-in-50">
       <div className="mb-8">
+        <div className="mb-4 flex items-center justify-end">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="destructive" size="sm">
+                <Trash2 className="mr-2 h-4 w-4" />
+                목표 삭제
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>정말 이 목표를 삭제하시겠습니까?</DialogTitle>
+                <DialogDescription>
+                  이 작업은 되돌릴 수 없으며, 목표와 관련된 모든 태스크가 함께
+                  삭제됩니다. 삭제된 데이터는 복구할 수 없습니다.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    const closeDialog = document.getElementById(
+                      "close-delete-dialog",
+                    );
+                    if (closeDialog instanceof HTMLButtonElement) {
+                      closeDialog.click();
+                    }
+                  }}
+                >
+                  취소
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={() => deleteGoal.mutate(goalId)}
+                  disabled={deleteGoal.isPending}
+                >
+                  {deleteGoal.isPending ? "삭제 중..." : "삭제"}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
         <GoalCard
           id={goal.id}
           title={goal.title}

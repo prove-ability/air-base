@@ -107,4 +107,27 @@ export const goalRouter = createTRPCRouter({
         },
       };
     }),
+
+  delete: protectedProcedure
+    .input(z.number())
+    .mutation(async ({ ctx, input: goalId }) => {
+      const goal = await ctx.db.query.goals.findFirst({
+        where: and(eq(goals.id, goalId), eq(goals.userId, ctx.session.user.id)),
+        columns: {
+          title: true,
+        },
+      });
+
+      if (!goal) {
+        throw new Error("목표를 찾을 수 없습니다.");
+      }
+
+      await ctx.db
+        .delete(goals)
+        .where(
+          and(eq(goals.id, goalId), eq(goals.userId, ctx.session.user.id)),
+        );
+
+      return goal;
+    }),
 });

@@ -26,7 +26,7 @@ export function NavClient({ session, children }: NavClientProps) {
       {/* 모바일 햄버거 메뉴 */}
       <button
         onClick={toggleMenu}
-        className="fixed right-4 top-4 z-50 block rounded-lg p-2 text-gray-600 text-muted-foreground hover:bg-accent hover:bg-gray-100 md:hidden"
+        className="fixed right-4 top-4 z-50 block rounded-lg p-2 text-muted-foreground hover:bg-accent md:hidden"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
@@ -37,11 +37,11 @@ export function NavClient({ session, children }: NavClientProps) {
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="flex h-full flex-col border-r border-border border-gray-200">
+        <div className="flex h-full flex-col border-r border-border">
           {/* 로고 */}
           <div className="p-5">
             <Link href="/" className="flex items-center">
-              <span className="text-xl font-semibold text-foreground text-gray-900">
+              <span className="text-xl font-semibold text-foreground">
                 Air Base
               </span>
             </Link>
@@ -55,7 +55,7 @@ export function NavClient({ session, children }: NavClientProps) {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-600 text-muted-foreground hover:bg-accent hover:bg-gray-100 hover:text-accent-foreground hover:text-gray-900"
+                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                 >
                   <Icon size={18} />
                   {item.name}
@@ -65,17 +65,17 @@ export function NavClient({ session, children }: NavClientProps) {
           </div>
 
           {/* 로그인/로그아웃 */}
-          <div className="border-t border-border border-gray-200 p-3">
+          <div className="border-t border-border p-3">
             {session?.user ? (
               <div className="space-y-3">
                 <div className="px-3 py-2">
-                  <p className="text-sm text-gray-600 text-muted-foreground">
+                  <p className="text-sm text-muted-foreground">
                     {session.user.name}
                   </p>
                 </div>
                 <Link
                   href="/api/auth/signout"
-                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-600 text-muted-foreground hover:bg-accent hover:bg-gray-100 hover:text-accent-foreground hover:text-gray-900"
+                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                 >
                   <LogOut size={18} />
                   로그아웃
@@ -84,7 +84,7 @@ export function NavClient({ session, children }: NavClientProps) {
             ) : (
               <Link
                 href="/api/auth/signin"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-600 text-muted-foreground hover:bg-accent hover:bg-gray-100 hover:text-accent-foreground hover:text-gray-900"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground"
               >
                 <KeyRound size={18} />
                 로그인

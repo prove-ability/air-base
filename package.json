@@ -55,6 +55,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@google-cloud/local-auth": "^3.0.1",
     "@hookform/resolvers": "^3.10.0",
     "@types/eslint": "^8.56.10",
     "@types/node": "^20.14.10",
@@ -68,6 +69,7 @@
     "eslint": "^8.57.0",
     "eslint-config-next": "^15.0.1",
     "eslint-plugin-drizzle": "^0.2.3",
+    "googleapis": "^144.0.0",
     "postcss": "^8.4.39",
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.5",
